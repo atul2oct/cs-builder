@@ -1,0 +1,128 @@
+[
+  {
+    "id": "proj-1",
+    "title": "Amjad Ansari Villa — 3D Layout & Blueprint",
+    "category": "Architecture",
+    "tagline": "Basement + Ground Floor Complete Architectural Design",
+    "location": "North Bangalore, Karnataka",
+    "area": "4,200 sq.ft",
+    "year": "2024",
+    "status": "Under Construction",
+    "featured": true,
+    "image": "/images/plan_ground.jpg",
+    "badge": "Architectural Plan",
+    "description": "Custom engineered modern duplex residence featuring an expansive basement hall with dual internal access, open-concept dining hall, master suites with integrated dressing, modular chef's kitchen, and dedicated guest wing.",
+    "highlights": [
+      "Vastu-compliant architectural floor plan",
+      "Structural beam & column grid layout",
+      "RCC footing & deep foundation engineering",
+      "Full 3D visualization and CAD working drawings"
+    ],
+    "deliverables": "Structural Drawings · Electrical MEP · 3D Elevations"
+  },
+  {
+    "id": "proj-2",
+    "title": "Green Meadows Gated Plots",
+    "category": "Land",
+    "tagline": "DC Converted Clear Title Villa Plots",
+    "location": "Yelahanka Extension, Bangalore",
+    "area": "1,200 – 2,400 sq.ft",
+    "year": "2024",
+    "status": "Available",
+    "featured": true,
+    "image": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+    "badge": "Verified Land",
+    "description": "Premium residential plots with clear legal verification by civil advocate, boundary demarcation, 40-ft wide tarred roads, underground electricity cabling, and water connection up to each plot boundary.",
+    "highlights": [
+      "100% Clear Title & A-Katha documentation",
+      "Soil bearing capacity testing completed",
+      "Immediate plan approval assistance",
+      "Gated community with 24/7 security & rainwater harvesting"
+    ],
+    "deliverables": "Title Search Report · Boundary Survey · Registration Support"
+  },
+  {
+    "id": "proj-3",
+    "title": "The Grand Oak Turnkey Residence",
+    "category": "Construction",
+    "tagline": "From Excavation to Handover in 11 Months",
+    "location": "Sarjapur Road, Bangalore",
+    "area": "3,650 sq.ft",
+    "year": "2023",
+    "status": "Completed & Handed Over",
+    "featured": true,
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    "badge": "Turnkey Construction",
+    "description": "Complete ground-up turnkey construction using Fe550D TMT reinforcement, Ultratech Grade 53 cement, automated curing, UPVC soundproof sliding windows, and waterproofing with a 10-year warranty.",
+    "highlights": [
+      "Anti-termite treated raft & plinth foundation",
+      "Double-coat external plaster with weather-shield paint",
+      "Concealed Finolex wiring with Schneider modular switches",
+      "Zero material delay guarantee through our in-house stock"
+    ],
+    "deliverables": "Full Construction · Quality Audits · OC Certificate Handover"
+  },
+  {
+    "id": "proj-4",
+    "title": "Scandinavian Minimalist Interiors",
+    "category": "Interiors",
+    "tagline": "Warm Oak, Italian Marble & Concealed Lighting",
+    "location": "Indiranagar, Bangalore",
+    "area": "2,800 sq.ft",
+    "year": "2024",
+    "status": "Completed",
+    "featured": true,
+    "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+    "badge": "Luxury Interiors",
+    "description": "Turnkey interior execution including acrylic finish modular kitchen with soft-close Blum hardware, floor-to-ceiling fluted paneling, designer false ceilings with magnetic track lights, and custom quartz breakfast counter.",
+    "highlights": [
+      "BWR grade marine plywood with 1mm laminate",
+      "Quartz countertop with Kohler sanitary fittings",
+      "Cove ambient LED lighting (3000K Warm White)",
+      "Factory-finished modular furniture with 5-year warranty"
+    ],
+    "deliverables": "3D Render to Reality · Custom Furniture · Lighting Automation"
+  },
+  {
+    "id": "proj-5",
+    "title": "Commercial & Residential Supply Hub",
+    "category": "Supplies",
+    "tagline": "Direct Wholesale Building Materials",
+    "location": "Depot & Logistics Hub, Bangalore",
+    "area": "Wholesale Supply",
+    "year": "2024",
+    "status": "Active Service",
+    "featured": false,
+    "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80",
+    "badge": "In-House Supply",
+    "description": "We supply our construction sites directly from factory mills: ACC/Ultratech cement, Jindal/Tata Fe550D steel bars, wire-cut red clay bricks, river/M-sand, Asian Paints Royale, and Kajaria vitrified floorings at wholesale margins.",
+    "highlights": [
+      "Zero subcontractor markups on core raw materials",
+      "Lab-tested batch quality assurance",
+      "On-demand site delivery fleet",
+      "Complete savings passed on to home owners"
+    ],
+    "deliverables": "Mill Test Certificates · Direct Weighbridge Slips · Batch Reports"
+  },
+  {
+    "id": "proj-6",
+    "title": "Basement Hall & Commercial Facility",
+    "category": "Architecture",
+    "tagline": "Heavy Load Bearing Sub-Structure Layout",
+    "location": "Bangalore Central",
+    "area": "3,400 sq.ft",
+    "year": "2024",
+    "status": "Approved",
+    "featured": false,
+    "image": "/images/plan_basement.jpg",
+    "badge": "Civil Engineering",
+    "description": "Engineered basement blueprint with retaining wall waterproofing, heavy vehicle load distribution columns, dedicated dual stair cores, and natural ventilation shafts complying with municipal fire safety codes.",
+    "highlights": [
+      "Retaining wall shear resistance calculation",
+      "Multi-stage sump & dewatering drain system",
+      "Ramped entrance with structural slope grade",
+      "Designed by Er. MD Chand (BE Civil)"
+    ],
+    "deliverables": "Structural Blueprints · Municipal Approval Stamps"
+  }
+]

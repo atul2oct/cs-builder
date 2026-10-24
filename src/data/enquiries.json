@@ -1,0 +1,35 @@
+[
+  {
+    "id": "enq-1",
+    "name": "Rajesh Sharma",
+    "phone": "9845012345",
+    "location": "Hebbal, Bangalore",
+    "stage": "Own land",
+    "budget": "₹80 Lakhs - ₹1.2 Cr",
+    "requirements": "Looking to construct a 4BHK duplex on 30x40 site. Need architectural layout, structural design, and full turnkey construction with premium finishes.",
+    "createdAt": "2024-10-22T10:15:00.000Z",
+    "status": "Contacted"
+  },
+  {
+    "id": "enq-2",
+    "name": "Ananya Kulkarni",
+    "phone": "9731098765",
+    "location": "Sarjapur Road",
+    "stage": "Looking for land",
+    "budget": "₹60 Lakhs",
+    "requirements": "Need assistance in purchasing a clear-title residential plot in a gated community, followed by villa construction.",
+    "createdAt": "2024-10-23T14:40:00.000Z",
+    "status": "New"
+  },
+  {
+    "id": "enq-3",
+    "name": "Vikramaditya Rao",
+    "phone": "9900234567",
+    "location": "Whitefield",
+    "stage": "Interiors",
+    "budget": "₹25 Lakhs",
+    "requirements": "House structure is ready. Need full interior design including Italian modular kitchen, master bedroom wardrobes, and false ceiling with cove lighting.",
+    "createdAt": "2024-10-24T09:20:00.000Z",
+    "status": "Scheduled Visit"
+  }
+]
