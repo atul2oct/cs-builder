@@ -24,7 +24,7 @@ export default function ContactSection({ onOpenEnquiry }: Props) {
           <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-8">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#DAE7C7] text-[#08482D] text-xs font-bold uppercase tracking-wider mb-6">
-                Direct Contact
+                Direct Contact &amp; Office
               </div>
 
               <h2
@@ -35,12 +35,32 @@ export default function ContactSection({ onOpenEnquiry }: Props) {
               </h2>
 
               <p className="mt-4 text-sm text-white/80 leading-relaxed">
-                Whether you have an empty plot, need land acquisition guidance,
-                or want structural blueprints and turnkey construction, reach out directly.
+                Visit our office or call directly to discuss land purchase, architectural floor plans,
+                structural blueprints, and turnkey construction.
               </p>
 
+              {/* Office Address Card */}
+              <div className="mt-6 p-4 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#DAE7C7]">
+                  <span>📍</span> Office &amp; Site Location
+                </div>
+                <p className="text-sm font-semibold text-white leading-relaxed">
+                  {BRAND.address}
+                </p>
+                <div className="pt-1">
+                  <a
+                    href={BRAND.mapDirectionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-[#DAE7C7] hover:underline font-medium"
+                  >
+                    Open in Google Maps App ↗
+                  </a>
+                </div>
+              </div>
+
               {/* Direct Phone Call Card */}
-              <div className="mt-8 space-y-4">
+              <div className="mt-4 space-y-3">
                 <a
                   href={`tel:${BRAND.phone}`}
                   className="flex items-center gap-4 p-4 rounded-2xl bg-white/10 hover:bg-white/20 transition-all border border-white/15 group"
@@ -81,7 +101,7 @@ export default function ContactSection({ onOpenEnquiry }: Props) {
             </div>
 
             {/* Modal Trigger Button */}
-            <div className="pt-4">
+            <div className="pt-2">
               <button
                 onClick={onOpenEnquiry}
                 className="w-full py-4 px-6 rounded-2xl bg-[#DAE7C7] text-[#08482D] text-base font-bold hover:bg-white active:scale-98 transition-all shadow-lg flex items-center justify-center gap-2"
@@ -93,12 +113,12 @@ export default function ContactSection({ onOpenEnquiry }: Props) {
           </div>
 
           {/* Right Column: Embedded Responsive Map (7 cols) */}
-          <div className="lg:col-span-7 bg-[#101410] relative min-h-[360px] lg:min-h-full flex flex-col justify-between">
-            {/* Google Map iframe */}
-            <div className="w-full h-full min-h-[380px] lg:min-h-[480px] relative">
+          <div className="lg:col-span-7 bg-[#101410] relative min-h-[380px] lg:min-h-full flex flex-col justify-between">
+            {/* Live Google Map iframe pointing to Uttar Pradesh location */}
+            <div className="w-full h-full min-h-[400px] lg:min-h-[520px] relative">
               <iframe
-                title="CS Builder & Developers Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124368.51339891048!2d77.51307062499999!3d13.067439000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                title="Cs Builders And Developers Location Map"
+                src={BRAND.mapEmbedUrl}
                 className="w-full h-full border-0 absolute inset-0 filter contrast-105 opacity-90 hover:opacity-100 transition-opacity"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -106,16 +126,21 @@ export default function ContactSection({ onOpenEnquiry }: Props) {
             </div>
 
             {/* Map Note Banner */}
-            <div className="bg-[#08482D]/95 backdrop-blur-md p-4 border-t border-white/10 flex items-center justify-between z-10 text-xs">
+            <div className="bg-[#08482D]/95 backdrop-blur-md p-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 z-10 text-xs">
               <div className="flex items-center gap-2">
                 <span className="text-lg">📍</span>
-                <span className="text-white/90">
-                  Head Office &amp; Material Logistics Depot • Serving Bangalore &amp; Karnataka
+                <span className="text-white/90 font-medium">
+                  {BRAND.address}
                 </span>
               </div>
-              <span className="text-[#DAE7C7] font-semibold hidden sm:inline">
-                +91 73074 78258
-              </span>
+              <a
+                href={BRAND.mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#DAE7C7] font-semibold hover:underline flex-shrink-0"
+              >
+                Get Directions ↗
+              </a>
             </div>
           </div>
         </div>

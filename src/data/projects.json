@@ -1,5 +1,25 @@
 [
   {
+    "title": "corner house",
+    "category": "Construction",
+    "tagline": "ground floor + first floor + half second floor",
+    "location": "NH-731, Uttar Pradesh",
+    "area": "2,500 sq.ft",
+    "year": "2024",
+    "status": "Completed",
+    "featured": true,
+    "image": "/uploads/proj_1792833820071_WhatsApp_Image_2026-10-24_at_1_32_.jpeg",
+    "badge": "Turnkey Project",
+    "description": "",
+    "highlights": [
+      "RCC Framed Structure",
+      "Complete Turnkey Execution",
+      "Vastu Compliant"
+    ],
+    "deliverables": "Floor Plan · Construction · Handover",
+    "id": "proj-1792833906051"
+  },
+  {
     "id": "proj-1",
     "title": "Amjad Ansari Villa — 3D Layout & Blueprint",
     "category": "Architecture",

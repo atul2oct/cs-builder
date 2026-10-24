@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BRAND } from "@/lib/constants";
 import { Project, Enquiry } from "@/lib/projectStore";
 
@@ -17,13 +17,16 @@ export default function AdminShell() {
   // Project Form Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     title: "",
     category: "Construction",
     tagline: "",
-    location: "",
-    area: "",
+    location: "NH-731, Uttar Pradesh",
+    area: "2,500 sq.ft",
     year: "2024",
     status: "Completed",
     featured: true,
@@ -70,16 +73,17 @@ export default function AdminShell() {
 
   const openAddModal = () => {
     setEditingProject(null);
+    setUploadError("");
     setFormData({
       title: "",
       category: "Construction",
       tagline: "",
-      location: "Bangalore, Karnataka",
+      location: "NH-731, Uttar Pradesh",
       area: "2,500 sq.ft",
       year: "2024",
       status: "Completed",
       featured: true,
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      image: "",
       badge: "Turnkey Project",
       description: "",
       highlights: "RCC Framed Structure\nComplete Turnkey Execution\nVastu Compliant",
@@ -90,6 +94,7 @@ export default function AdminShell() {
 
   const openEditModal = (p: Project) => {
     setEditingProject(p);
+    setUploadError("");
     setFormData({
       title: p.title,
       category: p.category,
@@ -108,9 +113,40 @@ export default function AdminShell() {
     setIsModalOpen(true);
   };
 
+  // Handle local file selection from device / computer
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadError("");
+
+    const body = new FormData();
+    body.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body,
+      }).then((r) => r.json());
+
+      if (res.success && res.url) {
+        setFormData((prev) => ({ ...prev, image: res.url }));
+      } else {
+        setUploadError(res.error || "Upload failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      setUploadError("Network error while uploading photo.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleSaveProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title) return alert("Please enter project title");
+    if (!formData.image) return alert("Please upload or provide an image for the project");
 
     const payload = {
       ...formData,
@@ -154,7 +190,7 @@ export default function AdminShell() {
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
+    if (!confirm("Are you sure you want to delete this project from the website?")) return;
     try {
       const res = await fetch(`/api/projects?id=${id}`, { method: "DELETE" }).then((r) => r.json());
       if (res.success) {
@@ -185,7 +221,7 @@ export default function AdminShell() {
       <div className="min-h-screen flex items-center justify-center p-4 bg-[#F5F8EF]">
         <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-[#DAE7C7] shadow-xl">
           <div className="text-center mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-[#08482D] text-white flex items-center justify-center text-xl font-bold mx-auto mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-[#08482D] text-white flex items-center justify-center text-xl font-bold mx-auto mb-3 shadow-md shadow-[#08482D]/20">
               CS
             </div>
             <h1
@@ -195,7 +231,7 @@ export default function AdminShell() {
               Admin Control Center
             </h1>
             <p className="text-xs text-[#5E5E61] mt-1">
-              Manage website projects, blueprints, and client enquiries
+              {BRAND.address}
             </p>
           </div>
 
@@ -238,7 +274,7 @@ export default function AdminShell() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F8EF] text-[#101410] flex flex-col">
+    <div className="min-h-screen bg-[#F5F8EF] text-[#101410] flex flex-col selection:bg-[#DAE7C7] selection:text-[#08482D]">
       {/* Top Header */}
       <header className="bg-[#08482D] text-white px-4 sm:px-8 py-4 border-b border-[#DAE7C7]/20 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-30 shadow-md">
         <div className="flex items-center gap-3">
@@ -250,7 +286,7 @@ export default function AdminShell() {
               CS Builder &amp; Developers Admin
             </h1>
             <span className="text-[10px] text-[#DAE7C7] uppercase tracking-wider">
-              Live CRUD Operations
+              {BRAND.locationShort}
             </span>
           </div>
         </div>
@@ -260,9 +296,10 @@ export default function AdminShell() {
             href="/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition-all"
+            className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition-all flex items-center gap-1.5"
           >
-            Preview Site ↗
+            <span>Preview Site</span>
+            <span>↗</span>
           </a>
           <button
             onClick={() => setAuthed(false)}
@@ -299,7 +336,7 @@ export default function AdminShell() {
           </div>
           <div className="bg-white p-5 rounded-2xl border border-[#DAE7C7] shadow-xs">
             <span className="text-xs font-semibold text-[#5E5E61] uppercase tracking-wider block mb-1">
-              Direct Phone
+              Direct Helpline
             </span>
             <span className="text-sm font-bold text-[#08482D] block truncate">
               {BRAND.phone}
@@ -398,7 +435,7 @@ export default function AdminShell() {
                         onClick={() => openEditModal(p)}
                         className="px-3 py-1.5 rounded-lg bg-[#F5F8EF] hover:bg-[#DAE7C7] text-xs font-bold text-[#08482D] transition-colors"
                       >
-                        Edit
+                        Edit Photo / Details
                       </button>
                       <button
                         onClick={() => handleDeleteProject(p.id)}
@@ -487,7 +524,7 @@ export default function AdminShell() {
         )}
       </main>
 
-      {/* ─── ADD / EDIT PROJECT MODAL ────────────────────────────────────── */}
+      {/* ─── ADD / EDIT PROJECT MODAL WITH PHOTO CHOOSER ────────────────── */}
       {isModalOpen && (
         <div
           role="dialog"
@@ -499,18 +536,110 @@ export default function AdminShell() {
             className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 border border-[#DAE7C7] shadow-2xl my-8 relative"
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-[#101410]">
-                {editingProject ? "Edit Project" : "Add New Project"}
-              </h2>
+              <div>
+                <h2 className="text-xl font-bold text-[#101410]">
+                  {editingProject ? "Edit Project" : "Add New Project"}
+                </h2>
+                <p className="text-xs text-[#5E5E61]">
+                  Upload blueprints or photos directly from your computer or phone
+                </p>
+              </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#F5F8EF] flex items-center justify-center font-bold text-sm"
+                className="w-8 h-8 rounded-full bg-[#F5F8EF] flex items-center justify-center font-bold text-sm text-[#101410] hover:bg-[#DAE7C7]"
+                aria-label="Close modal"
               >
                 ✕
               </button>
             </div>
 
             <form onSubmit={handleSaveProject} className="space-y-4">
+              {/* ── PHOTO UPLOAD SECTION (CHOOSE FROM COMPUTER / DEVICE) ── */}
+              <div className="p-4 rounded-2xl bg-[#F5F8EF] border border-[#DAE7C7]">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#08482D] mb-2">
+                  Project Photo / Blueprint *
+                </label>
+
+                {/* Hidden Native File Input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/png, image/jpeg, image/webp, image/jpg"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="project-file-uploader"
+                />
+
+                {/* Upload Button */}
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploading}
+                    className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#08482D] text-white text-xs font-bold hover:bg-[#1B4332] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-50"
+                  >
+                    <span>📁</span>
+                    <span>{isUploading ? "Uploading..." : "Choose Photo from Computer / Phone"}</span>
+                  </button>
+
+                  <span className="text-[11px] text-[#5E5E61]">
+                    JPG, PNG, or WebP up to 10MB
+                  </span>
+                </div>
+
+                {uploadError && (
+                  <p className="text-xs text-red-600 mt-2 font-medium">{uploadError}</p>
+                )}
+
+                {/* Image Preview */}
+                {formData.image && (
+                  <div className="mt-3 relative rounded-xl overflow-hidden border border-[#DAE7C7] bg-white h-40 flex items-center justify-center group">
+                    <img
+                      src={formData.image}
+                      alt="Selected preview"
+                      className="w-full h-full object-contain"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-3 py-1.5 rounded-lg bg-white text-xs font-bold text-[#08482D]"
+                      >
+                        Change Photo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setFormData((prev) => ({ ...prev, image: "" }))}
+                        className="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-bold"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Preset Blueprint Shortcuts */}
+                <div className="mt-3 pt-2 border-t border-[#DAE7C7]/60 flex flex-wrap items-center gap-2 text-[11px] text-[#5E5E61]">
+                  <span>Or use preset blueprint:</span>
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev) => ({ ...prev, image: "/images/plan_ground.jpg" }))}
+                    className="text-[#08482D] font-bold underline hover:opacity-80"
+                  >
+                    Ground Floor CAD
+                  </button>
+                  <span>•</span>
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev) => ({ ...prev, image: "/images/plan_basement.jpg" }))}
+                    className="text-[#08482D] font-bold underline hover:opacity-80"
+                  >
+                    Basement CAD
+                  </button>
+                </div>
+              </div>
+
+              {/* Title */}
               <div>
                 <label className="block text-xs font-bold text-[#101410] mb-1">
                   Project Title *
@@ -525,6 +654,7 @@ export default function AdminShell() {
                 />
               </div>
 
+              {/* Category & Status */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-[#101410] mb-1">
@@ -550,12 +680,13 @@ export default function AdminShell() {
                     type="text"
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    placeholder="Completed / In Progress"
+                    placeholder="Completed / Under Construction"
                     className="w-full px-3 py-2 text-sm rounded-xl border border-[#DAE7C7]"
                   />
                 </div>
               </div>
 
+              {/* Location & Area */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-[#101410] mb-1">
@@ -565,7 +696,7 @@ export default function AdminShell() {
                     type="text"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    placeholder="Bangalore, Karnataka"
+                    placeholder="e.g. NH-731, Uttar Pradesh"
                     className="w-full px-3 py-2 text-sm rounded-xl border border-[#DAE7C7]"
                   />
                 </div>
@@ -577,41 +708,27 @@ export default function AdminShell() {
                     type="text"
                     value={formData.area}
                     onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                    placeholder="3,200 sq.ft"
+                    placeholder="e.g. 3,200 sq.ft"
                     className="w-full px-3 py-2 text-sm rounded-xl border border-[#DAE7C7]"
                   />
                 </div>
               </div>
 
+              {/* Tagline / Subtitle */}
               <div>
                 <label className="block text-xs font-bold text-[#101410] mb-1">
-                  Image URL or Local Path
+                  Tagline / Subtitle
                 </label>
                 <input
                   type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="/images/plan_ground.jpg or https://images.unsplash..."
+                  value={formData.tagline}
+                  onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+                  placeholder="e.g. Basement + Ground Floor Complete Architectural Design"
                   className="w-full px-3 py-2 text-sm rounded-xl border border-[#DAE7C7]"
                 />
-                <div className="flex gap-2 mt-1">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, image: "/images/plan_ground.jpg" })}
-                    className="text-[10px] text-[#08482D] underline"
-                  >
-                    Use Ground Floor Plan
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, image: "/images/plan_basement.jpg" })}
-                    className="text-[10px] text-[#08482D] underline"
-                  >
-                    Use Basement Plan
-                  </button>
-                </div>
               </div>
 
+              {/* Description */}
               <div>
                 <label className="block text-xs font-bold text-[#101410] mb-1">
                   Project Description
@@ -625,6 +742,7 @@ export default function AdminShell() {
                 />
               </div>
 
+              {/* Highlights */}
               <div>
                 <label className="block text-xs font-bold text-[#101410] mb-1">
                   Highlights (One per line)
@@ -638,6 +756,7 @@ export default function AdminShell() {
                 />
               </div>
 
+              {/* Submit Buttons */}
               <div className="pt-3 flex gap-3">
                 <button
                   type="button"
@@ -648,7 +767,8 @@ export default function AdminShell() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-[#08482D] text-white text-xs font-bold hover:bg-[#1B4332]"
+                  disabled={isUploading}
+                  className="flex-1 py-2.5 rounded-xl bg-[#08482D] text-white text-xs font-bold hover:bg-[#1B4332] active:scale-95 transition-all shadow-md disabled:opacity-50"
                 >
                   {editingProject ? "Update Project" : "Publish Project"}
                 </button>

@@ -66,6 +66,9 @@ export default function HomePage() {
             <p className="text-xs font-semibold text-[#08482D]">
               Direct Helpline: {BRAND.phone}
             </p>
+            <p className="text-xs text-[#5E5E61]">
+              📍 {BRAND.address}
+            </p>
           </div>
 
           <div className="md:col-span-3 space-y-2">
