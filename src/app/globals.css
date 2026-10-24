@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
+/* ─── Brand Design Tokens ─────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand colours */
+  --color-forest:      #1B4332;
+  --color-forest-mid:  #2D6A4F;
+  --color-forest-light:#40916C;
+  --color-sand:        #C9A96E;
+  --color-sand-light:  #E8D5B0;
+  --color-surface:     #F8F6F1;
+  --color-surface-2:   #F0EBE3;
+  --color-ink:         #1A1A1A;
+  --color-ink-muted:   #5C5C5C;
+  --color-white:       #FFFFFF;
+
+  /* Typography */
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body:    var(--font-inter), system-ui, sans-serif;
+
+  /* Spacing scale */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  1.5rem;
+  --space-lg:  2rem;
+  --space-xl:  3rem;
+  --space-2xl: 5rem;
+
+  /* Motion */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-fast:       200ms;
+  --dur-med:        400ms;
+  --dur-slow:       700ms;
 }
 
+/* ─── Tailwind v4 theme mapping ──────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-ink);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── Focus styles (keyboard-visible) ───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── Native dialog backdrop ─────────────────────────────────────────────── */
+dialog::backdrop {
+  background: rgba(10, 15, 10, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+dialog {
+  border: none;
+  padding: 0;
+  background: transparent;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+
+/* ─── Smooth scroll utilities ────────────────────────────────────────────── */
+.scroll-mt-header {
+  scroll-margin-top: 80px;
+}
+
+/* ─── Reduced motion override ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ─── Visually hidden utility ────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

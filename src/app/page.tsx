@@ -1,69 +1,220 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import Navbar from "@/components/nav/Navbar";
+import Hero from "@/components/hero/Hero";
+import EnquiryModal from "@/components/enquiry/EnquiryModal";
+import StickyMobileCTA from "@/components/sticky/StickyMobileCTA";
+
+export default function HomePage() {
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+
+  const openEnquiry = () => setEnquiryOpen(true);
+  const closeEnquiry = () => setEnquiryOpen(false);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      <Navbar onOpenEnquiry={openEnquiry} />
+      <main id="main-content">
+        <Hero onOpenEnquiry={openEnquiry} />
+
+        {/* ── Phase 2+: "Land to Living" 3D scroll scene ─────── */}
+        <section
+          id="services"
+          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+          aria-label="Services — coming in Phase 2"
+        >
+          <div
+            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
+            style={{ borderColor: "rgba(201,169,110,0.3)" }}
+          >
+            <span className="text-4xl" aria-hidden="true">🏗️</span>
+            <p
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: "var(--color-sand)" }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Phase 2
+            </p>
+            <h2
+              className="text-2xl font-bold"
+              style={{
+                fontFamily: "var(--font-display)",
+                color: "var(--color-ink)",
+              }}
             >
-              Learning
-            </a>{" "}
-            center.
+              "Land to Living" — 3D Scroll Scene
+            </h2>
+            <p
+              className="text-sm max-w-md"
+              style={{ color: "var(--color-ink-muted)" }}
+            >
+              Watch your home transform from a plot of land through foundation,
+              structure, roof, finishing, and interior — synced to your scroll.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Phase 3+: Featured projects ─────────────────────── */}
+        <section
+          id="projects"
+          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+          aria-label="Featured projects — coming in Phase 3"
+        >
+          <div
+            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
+            style={{ borderColor: "rgba(201,169,110,0.3)" }}
+          >
+            <span className="text-4xl" aria-hidden="true">🏠</span>
+            <p
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: "var(--color-sand)" }}
+            >
+              Phase 3
+            </p>
+            <h2
+              className="text-2xl font-bold"
+              style={{
+                fontFamily: "var(--font-display)",
+                color: "var(--color-ink)",
+              }}
+            >
+              Featured Projects
+            </h2>
+            <p
+              className="text-sm max-w-md"
+              style={{ color: "var(--color-ink-muted)" }}
+            >
+              Sanity-powered project gallery with Land, Construction, and
+              Interior filter — client-manageable without a developer.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Phase 4+: About / Trust / Footer ────────────────── */}
+        <section
+          id="about"
+          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+          aria-label="About — coming in Phase 4"
+        >
+          <div
+            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
+            style={{ borderColor: "rgba(201,169,110,0.3)" }}
+          >
+            <span className="text-4xl" aria-hidden="true">🤝</span>
+            <p
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: "var(--color-sand)" }}
+            >
+              Phase 4
+            </p>
+            <h2
+              className="text-2xl font-bold"
+              style={{
+                fontFamily: "var(--font-display)",
+                color: "var(--color-ink)",
+              }}
+            >
+              Why Choose Us — Trust &amp; Testimonials
+            </h2>
+          </div>
+        </section>
+
+        {/* ── Contact ─────────────────────────────────────────── */}
+        <section
+          id="contact"
+          className="py-24"
+          style={{ background: "var(--color-forest)" }}
+          aria-label="Contact"
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <h2
+              className="text-3xl sm:text-4xl font-bold"
+              style={{
+                fontFamily: "var(--font-display)",
+                color: "var(--color-white)",
+              }}
+            >
+              Ready to Build Your Dream Home?
+            </h2>
+            <p
+              className="text-base sm:text-lg"
+              style={{ color: "rgba(255,255,255,0.75)" }}
+            >
+              Let's talk — our team will guide you from the very first step.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button
+                onClick={openEnquiry}
+                className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold transition-all hover:opacity-90 active:scale-95"
+                style={{
+                  background: "var(--color-sand)",
+                  color: "var(--color-forest)",
+                }}
+              >
+                Discuss Your Project
+              </button>
+              <a
+                href={`tel:+917307478258`}
+                className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-medium border transition-all hover:bg-white/10"
+                style={{
+                  color: "var(--color-white)",
+                  borderColor: "rgba(255,255,255,0.3)",
+                }}
+              >
+                📞 +91 73074 78258
+              </a>
+            </div>
+
+            {/* Map placeholder */}
+            <div
+              id="map"
+              className="mt-12 rounded-2xl overflow-hidden"
+              style={{ height: "300px", background: "rgba(255,255,255,0.1)" }}
+              aria-label="Map — to be configured"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+                <span className="text-4xl" aria-hidden="true">📍</span>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "rgba(255,255,255,0.6)" }}
+                >
+                  Map coming soon — replace with Google Maps embed
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ── Footer ──────────────────────────────────────────────── */}
+      <footer
+        className="py-8 px-4 sm:px-6 border-t"
+        style={{
+          background: "#0f2b1f",
+          borderColor: "rgba(201,169,110,0.1)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p
+            className="text-xs"
+            style={{ color: "rgba(255,255,255,0.4)" }}
+          >
+            © 2025 CS Builder &amp; Developers. All rights reserved.
+          </p>
+          <p
+            className="text-xs"
+            style={{ color: "rgba(255,255,255,0.4)" }}
+          >
+            BE Civil Engineering · Institution of Engineers (India) — Associate Member
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </footer>
+
+      {/* ── Enquiry modal ────────────────────────────────────────── */}
+      <EnquiryModal open={enquiryOpen} onClose={closeEnquiry} />
+
+      {/* ── Sticky mobile CTA (hidden on md+) ───────────────────── */}
+      <StickyMobileCTA onOpenEnquiry={openEnquiry} />
+    </>
   );
 }
