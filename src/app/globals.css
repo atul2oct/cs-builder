@@ -1,45 +1,38 @@
 @import "tailwindcss";
 
-/* ─── Brand Design Tokens ─────────────────────────────────────────────────── */
+/* ─── Reelmark & CS Builder Brand Design Tokens ───────────────────────────── */
 :root {
-  /* Brand colours */
-  --color-forest:      #1B4332;
-  --color-forest-mid:  #2D6A4F;
-  --color-forest-light:#40916C;
+  /* Brand colours - Reelmark inspired soft studio & deep forest */
+  --color-page-bg:     #F5F8EF;
+  --color-forest:      #08482D;
+  --color-forest-mid:  #1B4332;
+  --color-forest-light:#2D6A4F;
+  --color-mint-badge:  #DAE7C7;
+  --color-mint-light:  #EDF4E4;
   --color-sand:        #C9A96E;
-  --color-sand-light:  #E8D5B0;
-  --color-surface:     #F8F6F1;
-  --color-surface-2:   #F0EBE3;
-  --color-ink:         #1A1A1A;
-  --color-ink-muted:   #5C5C5C;
-  --color-white:       #FFFFFF;
+  --color-sand-light:  #F2E9D8;
+  --color-surface:     #FFFFFF;
+  --color-surface-2:   #FBFBF7;
+  --color-ink:         #101410;
+  --color-ink-muted:   #5E5E61;
 
   /* Typography */
   --font-display: var(--font-playfair), Georgia, serif;
   --font-body:    var(--font-inter), system-ui, sans-serif;
+  --font-notes:   var(--font-caveat), cursive;
 
-  /* Spacing scale */
-  --space-xs:  0.5rem;
-  --space-sm:  1rem;
-  --space-md:  1.5rem;
-  --space-lg:  2rem;
-  --space-xl:  3rem;
-  --space-2xl: 5rem;
-
-  /* Motion */
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
-  --dur-fast:       200ms;
-  --dur-med:        400ms;
-  --dur-slow:       700ms;
+  /* Spacing & Transitions */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 200ms;
+  --dur-med: 400ms;
 }
 
-/* ─── Tailwind v4 theme mapping ──────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--color-surface);
+  --color-background: var(--color-page-bg);
   --color-foreground: var(--color-ink);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+  --font-notes: var(--font-notes);
 }
 
 /* ─── Base reset ─────────────────────────────────────────────────────────── */
@@ -50,28 +43,39 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  background-color: var(--color-page-bg);
 }
 
 body {
-  background: var(--color-surface);
+  background-color: var(--color-page-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* ─── Focus styles (keyboard-visible) ───────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-forest);
-  outline-offset: 3px;
-  border-radius: 3px;
+/* ─── Handwritten Reelmark Notes ─────────────────────────────────────────── */
+.hand-note {
+  font-family: var(--font-notes);
+  color: var(--color-forest);
+  line-height: 1.1;
+  user-select: none;
+}
+
+/* ─── Hide scrollbar utility ─────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* ─── Native dialog backdrop ─────────────────────────────────────────────── */
 dialog::backdrop {
-  background: rgba(10, 15, 10, 0.65);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(8, 72, 45, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 dialog {
@@ -82,33 +86,21 @@ dialog {
   overflow-y: auto;
 }
 
-/* ─── Smooth scroll utilities ────────────────────────────────────────────── */
-.scroll-mt-header {
-  scroll-margin-top: 80px;
+/* ─── Focus styles ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* ─── Reduced motion override ────────────────────────────────────────────── */
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-
   html {
     scroll-behavior: auto;
   }
-}
-
-/* ─── Visually hidden utility ────────────────────────────────────────────── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
