@@ -3,8 +3,13 @@
 import { useState } from "react";
 import Navbar from "@/components/nav/Navbar";
 import Hero from "@/components/hero/Hero";
+import LandToLivingSection from "@/components/land-to-living/LandToLivingSection";
+import ProjectsCarousel from "@/components/projects/ProjectsCarousel";
+import TrustSection from "@/components/trust/TrustSection";
+import ContactSection from "@/components/contact/ContactSection";
 import EnquiryModal from "@/components/enquiry/EnquiryModal";
 import StickyMobileCTA from "@/components/sticky/StickyMobileCTA";
+import { BRAND } from "@/lib/constants";
 
 export default function HomePage() {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -13,208 +18,101 @@ export default function HomePage() {
   const closeEnquiry = () => setEnquiryOpen(false);
 
   return (
-    <>
+    <div className="min-h-screen bg-[#F5F8EF] text-[#101410] flex flex-col selection:bg-[#DAE7C7] selection:text-[#08482D]">
+      {/* ── Navbar ────────────────────────────────────────────── */}
       <Navbar onOpenEnquiry={openEnquiry} />
-      <main id="main-content">
+
+      {/* ── Main Content Landmark ─────────────────────────────── */}
+      <main id="main-content" className="flex-1 pb-16 md:pb-0">
+        {/* 1. Reelmark-Inspired Hero Section */}
         <Hero onOpenEnquiry={openEnquiry} />
 
-        {/* ── Phase 2+: "Land to Living" 3D scroll scene ─────── */}
-        <section
-          id="services"
-          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
-          aria-label="Services — coming in Phase 2"
-        >
-          <div
-            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
-            style={{ borderColor: "rgba(201,169,110,0.3)" }}
-          >
-            <span className="text-4xl" aria-hidden="true">🏗️</span>
-            <p
-              className="text-sm font-semibold uppercase tracking-widest"
-              style={{ color: "var(--color-sand)" }}
-            >
-              Phase 2
-            </p>
-            <h2
-              className="text-2xl font-bold"
-              style={{
-                fontFamily: "var(--font-display)",
-                color: "var(--color-ink)",
-              }}
-            >
-              "Land to Living" — 3D Scroll Scene
-            </h2>
-            <p
-              className="text-sm max-w-md"
-              style={{ color: "var(--color-ink-muted)" }}
-            >
-              Watch your home transform from a plot of land through foundation,
-              structure, roof, finishing, and interior — synced to your scroll.
-            </p>
-          </div>
-        </section>
+        {/* 2. Interactive 3D "Land to Living" Construction Journey */}
+        <LandToLivingSection onOpenEnquiry={openEnquiry} />
 
-        {/* ── Phase 3+: Featured projects ─────────────────────── */}
-        <section
-          id="projects"
-          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
-          aria-label="Featured projects — coming in Phase 3"
-        >
-          <div
-            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
-            style={{ borderColor: "rgba(201,169,110,0.3)" }}
-          >
-            <span className="text-4xl" aria-hidden="true">🏠</span>
-            <p
-              className="text-sm font-semibold uppercase tracking-widest"
-              style={{ color: "var(--color-sand)" }}
-            >
-              Phase 3
-            </p>
-            <h2
-              className="text-2xl font-bold"
-              style={{
-                fontFamily: "var(--font-display)",
-                color: "var(--color-ink)",
-              }}
-            >
-              Featured Projects
-            </h2>
-            <p
-              className="text-sm max-w-md"
-              style={{ color: "var(--color-ink-muted)" }}
-            >
-              Sanity-powered project gallery with Land, Construction, and
-              Interior filter — client-manageable without a developer.
-            </p>
-          </div>
-        </section>
+        {/* 3. Featured Projects & Blueprints Carousel (with Admin CRUD Sync) */}
+        <ProjectsCarousel onOpenEnquiry={openEnquiry} />
 
-        {/* ── Phase 4+: About / Trust / Footer ────────────────── */}
-        <section
-          id="about"
-          className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
-          aria-label="About — coming in Phase 4"
-        >
-          <div
-            className="rounded-2xl border-2 border-dashed flex flex-col items-center justify-center py-24 text-center gap-4"
-            style={{ borderColor: "rgba(201,169,110,0.3)" }}
-          >
-            <span className="text-4xl" aria-hidden="true">🤝</span>
-            <p
-              className="text-sm font-semibold uppercase tracking-widest"
-              style={{ color: "var(--color-sand)" }}
-            >
-              Phase 4
-            </p>
-            <h2
-              className="text-2xl font-bold"
-              style={{
-                fontFamily: "var(--font-display)",
-                color: "var(--color-ink)",
-              }}
-            >
-              Why Choose Us — Trust &amp; Testimonials
-            </h2>
-          </div>
-        </section>
+        {/* 4. Engineering Credentials & In-House Supply Engine */}
+        <TrustSection />
 
-        {/* ── Contact ─────────────────────────────────────────── */}
-        <section
-          id="contact"
-          className="py-24"
-          style={{ background: "var(--color-forest)" }}
-          aria-label="Contact"
-        >
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-            <h2
-              className="text-3xl sm:text-4xl font-bold"
-              style={{
-                fontFamily: "var(--font-display)",
-                color: "var(--color-white)",
-              }}
-            >
-              Ready to Build Your Dream Home?
-            </h2>
-            <p
-              className="text-base sm:text-lg"
-              style={{ color: "rgba(255,255,255,0.75)" }}
-            >
-              Let's talk — our team will guide you from the very first step.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <button
-                onClick={openEnquiry}
-                className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold transition-all hover:opacity-90 active:scale-95"
-                style={{
-                  background: "var(--color-sand)",
-                  color: "var(--color-forest)",
-                }}
-              >
-                Discuss Your Project
-              </button>
-              <a
-                href={`tel:+917307478258`}
-                className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-medium border transition-all hover:bg-white/10"
-                style={{
-                  color: "var(--color-white)",
-                  borderColor: "rgba(255,255,255,0.3)",
-                }}
-              >
-                📞 +91 73074 78258
-              </a>
-            </div>
-
-            {/* Map placeholder */}
-            <div
-              id="map"
-              className="mt-12 rounded-2xl overflow-hidden"
-              style={{ height: "300px", background: "rgba(255,255,255,0.1)" }}
-              aria-label="Map — to be configured"
-            >
-              <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-                <span className="text-4xl" aria-hidden="true">📍</span>
-                <p
-                  className="text-sm font-medium"
-                  style={{ color: "rgba(255,255,255,0.6)" }}
-                >
-                  Map coming soon — replace with Google Maps embed
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* 5. Contact Section & Responsive Location Map */}
+        <ContactSection onOpenEnquiry={openEnquiry} />
       </main>
 
-      {/* ── Footer ──────────────────────────────────────────────── */}
+      {/* ── Site Footer ────────────────────────────────────────── */}
       <footer
-        className="py-8 px-4 sm:px-6 border-t"
-        style={{
-          background: "#0f2b1f",
-          borderColor: "rgba(201,169,110,0.1)",
-        }}
+        className="py-12 px-4 sm:px-6 lg:px-8 border-t border-[#DAE7C7] bg-white text-[#101410]"
       >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p
-            className="text-xs"
-            style={{ color: "rgba(255,255,255,0.4)" }}
-          >
-            © 2025 CS Builder &amp; Developers. All rights reserved.
-          </p>
-          <p
-            className="text-xs"
-            style={{ color: "rgba(255,255,255,0.4)" }}
-          >
-            BE Civil Engineering · Institution of Engineers (India) — Associate Member
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-start mb-8">
+          <div className="md:col-span-5 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#08482D] flex items-center justify-center text-white font-bold text-sm">
+                CS
+              </div>
+              <div>
+                <span className="block text-base font-bold text-[#08482D] leading-none">
+                  CS BUILDER &amp; DEVELOPERS
+                </span>
+                <span className="text-[10px] font-semibold text-[#C9A96E] uppercase tracking-widest">
+                  From Land to Living
+                </span>
+              </div>
+            </div>
+            <p className="text-xs text-[#5E5E61] max-w-sm leading-relaxed">
+              Complete turnkey home construction, architectural layout design,
+              civil structural engineering, and in-house wholesale building materials.
+            </p>
+            <p className="text-xs font-semibold text-[#08482D]">
+              Direct Helpline: {BRAND.phone}
+            </p>
+          </div>
+
+          <div className="md:col-span-3 space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#101410]">
+              Our Capabilities
+            </h4>
+            <ul className="text-xs text-[#5E5E61] space-y-1.5">
+              <li>• Land Search &amp; Title Verification</li>
+              <li>• CAD 3D Architecture &amp; Floor Plans</li>
+              <li>• RCC Foundation &amp; Structural Slabs</li>
+              <li>• In-House Cement, Steel &amp; Paint Depot</li>
+              <li>• Turnkey Interior Design &amp; Modular Woodwork</li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-4 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#101410]">
+              Engineering Oversight
+            </h4>
+            <p className="text-xs text-[#5E5E61] leading-relaxed">
+              Led by <strong>Er. MD Chand</strong> (B.E. Civil Engineering, NMIT - 8.71 CGPA Distinction),
+              Associate Member of The Institution of Engineers (India) AM3057456.
+            </p>
+            <div className="pt-1">
+              <a
+                href="/admin"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#08482D] bg-[#DAE7C7]/50 hover:bg-[#DAE7C7] px-3 py-1.5 rounded-lg border border-[#08482D]/15 transition-all"
+              >
+                🔒 Admin CRUD Portal ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto pt-6 border-t border-[#DAE7C7]/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#5E5E61]">
+          <p>© 2025 CS Builder &amp; Developers. All rights reserved.</p>
+          <p className="text-[11px]">
+            Designed with precision • Built for lifelong comfort
           </p>
         </div>
       </footer>
 
-      {/* ── Enquiry modal ────────────────────────────────────────── */}
+      {/* ── Native Accessible Enquiry Modal ───────────────────── */}
       <EnquiryModal open={enquiryOpen} onClose={closeEnquiry} />
 
-      {/* ── Sticky mobile CTA (hidden on md+) ───────────────────── */}
+      {/* ── Sticky Mobile CTA for Thumb Reach ─────────────────── */}
       <StickyMobileCTA onOpenEnquiry={openEnquiry} />
-    </>
+    </div>
   );
 }

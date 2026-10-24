@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { BRAND } from "@/lib/constants";
-import EnquiryModal from "@/components/enquiry/EnquiryModal";
 
 interface NavProps {
   onOpenEnquiry: () => void;
@@ -19,10 +18,11 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
   }, []);
 
   const navLinks = [
-    { label: "Services", href: "#services" },
-    { label: "Projects", href: "#projects" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "3D Journey", href: "#services" },
+    { label: "Projects & Plans", href: "#projects" },
+    { label: "Credentials", href: "#about" },
+    { label: "Contact & Map", href: "#contact" },
+    { label: "Admin", href: "/admin" },
   ];
 
   return (
@@ -30,12 +30,12 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
         background: scrolled
-          ? "rgba(248,246,241,0.95)"
-          : "rgba(248,246,241,0.7)",
+          ? "rgba(245, 248, 239, 0.95)"
+          : "rgba(245, 248, 239, 0.8)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
-        borderBottom: scrolled ? "1px solid rgba(201,169,110,0.25)" : "none",
-        boxShadow: scrolled ? "0 1px 20px rgba(0,0,0,0.06)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(218, 231, 199, 0.9)" : "none",
+        boxShadow: scrolled ? "0 4px 24px rgba(8, 72, 45, 0.06)" : "none",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,21 +43,15 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
           {/* Logo */}
           <a
             href="/"
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-3 group"
             aria-label="CS Builder & Developers – home"
           >
             <HouseIcon />
             <div>
-              <span
-                className="block text-sm font-bold leading-none tracking-tight"
-                style={{ color: "var(--color-forest)" }}
-              >
+              <span className="block text-base font-bold leading-none tracking-tight text-[#08482D]">
                 CS BUILDER
               </span>
-              <span
-                className="block text-[10px] font-medium tracking-widest uppercase leading-none mt-0.5"
-                style={{ color: "var(--color-sand)" }}
-              >
+              <span className="block text-[10px] font-semibold tracking-widest uppercase leading-none mt-1 text-[#C9A96E]">
                 &amp; Developers
               </span>
             </div>
@@ -66,14 +60,17 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
           {/* Desktop nav */}
           <nav
             aria-label="Main navigation"
-            className="hidden md:flex items-center gap-8"
+            className="hidden md:flex items-center gap-7"
           >
             {navLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
-                className="text-sm font-medium transition-colors duration-150 hover:text-[var(--color-forest)]"
-                style={{ color: "var(--color-ink-muted)" }}
+                className={`text-sm font-semibold transition-colors duration-150 ${
+                  label === "Admin"
+                    ? "text-[#08482D] bg-[#DAE7C7]/60 hover:bg-[#DAE7C7] px-3 py-1 rounded-full border border-[#08482D]/15"
+                    : "text-[#5E5E61] hover:text-[#08482D]"
+                }`}
               >
                 {label}
               </a>
@@ -84,18 +81,13 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
           <div className="hidden md:flex items-center gap-3">
             <a
               href={`tel:${BRAND.phone}`}
-              className="text-sm font-medium px-4 py-2 rounded-lg transition-colors hover:bg-black/5"
-              style={{ color: "var(--color-ink-muted)" }}
+              className="text-xs font-bold px-3.5 py-2 rounded-xl text-[#08482D] hover:bg-white/80 transition-colors border border-[#DAE7C7]"
             >
-              {BRAND.phone}
+              📞 {BRAND.phone}
             </a>
             <button
               onClick={onOpenEnquiry}
-              className="text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 hover:opacity-90 active:scale-95"
-              style={{
-                background: "var(--color-forest)",
-                color: "var(--color-white)",
-              }}
+              className="text-xs font-bold px-5 py-2.5 rounded-xl transition-all duration-200 hover:bg-[#1B4332] active:scale-95 shadow-md bg-[#08482D] text-white shadow-[#08482D]/20"
             >
               Discuss Your Project
             </button>
@@ -107,17 +99,16 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
             onClick={() => setMobileMenuOpen((v) => !v)}
-            className="md:hidden rounded-lg p-2 transition-colors hover:bg-black/5"
-            style={{ color: "var(--color-ink)" }}
+            className="md:hidden rounded-xl p-2.5 transition-colors hover:bg-black/5 text-[#08482D]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
@@ -140,27 +131,35 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
           <nav
             id="mobile-nav"
             aria-label="Mobile navigation"
-            className="md:hidden border-t py-4 space-y-1"
-            style={{ borderColor: "rgba(201,169,110,0.2)" }}
+            className="md:hidden border-t border-[#DAE7C7] py-4 space-y-1.5 bg-[#F5F8EF]"
           >
             {navLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-2 py-2.5 text-sm font-medium rounded-lg transition-colors hover:bg-black/5"
-                style={{ color: "var(--color-ink)" }}
+                className="block px-3 py-2.5 text-sm font-semibold rounded-xl text-[#101410] hover:bg-[#DAE7C7]/40 transition-colors"
               >
                 {label}
               </a>
             ))}
-            <a
-              href={`tel:${BRAND.phone}`}
-              className="block px-2 py-2.5 text-sm font-medium"
-              style={{ color: "var(--color-forest)" }}
-            >
-              📞 {BRAND.phone}
-            </a>
+            <div className="pt-2 flex flex-col gap-2">
+              <a
+                href={`tel:${BRAND.phone}`}
+                className="block px-3 py-2.5 text-sm font-bold text-[#08482D] bg-[#DAE7C7]/50 rounded-xl text-center"
+              >
+                📞 Call {BRAND.phone}
+              </a>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenEnquiry();
+                }}
+                className="w-full py-3 px-4 rounded-xl bg-[#08482D] text-white text-sm font-bold text-center"
+              >
+                Discuss Your Project
+              </button>
+            </div>
           </nav>
         )}
       </div>
@@ -170,41 +169,22 @@ export default function Navbar({ onOpenEnquiry }: NavProps) {
 
 function HouseIcon() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="36"
-      height="36"
-      viewBox="0 0 40 40"
-      fill="none"
-      aria-hidden="true"
-    >
-      <rect width="40" height="40" rx="10" fill="#1B4332" />
-      <path
-        d="M20 10 L32 20 L32 32 L8 32 L8 20 Z"
+    <div className="w-10 h-10 rounded-xl bg-[#08482D] flex items-center justify-center text-white shadow-md shadow-[#08482D]/20">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
         fill="none"
-        stroke="#C9A96E"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 32 L16 24 L24 24 L24 32"
-        fill="none"
-        stroke="#C9A96E"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M20 10 L32 20"
-        stroke="#C9A96E"
-        strokeWidth="2"
+        stroke="#DAE7C7"
+        strokeWidth="2.2"
         strokeLinecap="round"
-      />
-      <path
-        d="M20 10 L8 20"
-        stroke="#C9A96E"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    </div>
   );
 }
