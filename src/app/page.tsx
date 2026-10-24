@@ -6,6 +6,7 @@ import Hero from "@/components/hero/Hero";
 import LandToLivingSection from "@/components/land-to-living/LandToLivingSection";
 import ProjectsCarousel from "@/components/projects/ProjectsCarousel";
 import TrustSection from "@/components/trust/TrustSection";
+import GoogleReviewsCarousel from "@/components/reviews/GoogleReviewsCarousel";
 import ContactSection from "@/components/contact/ContactSection";
 import EnquiryModal from "@/components/enquiry/EnquiryModal";
 import StickyMobileCTA from "@/components/sticky/StickyMobileCTA";
@@ -36,7 +37,10 @@ export default function HomePage() {
         {/* 4. Engineering Credentials & In-House Supply Engine */}
         <TrustSection />
 
-        {/* 5. Contact Section & Responsive Location Map */}
+        {/* 5. Google Customer Reviews Carousel (Smooth right-to-left marquee + 2x zoom on hover) */}
+        <GoogleReviewsCarousel />
+
+        {/* 6. Contact Section & Responsive Location Map */}
         <ContactSection onOpenEnquiry={openEnquiry} />
       </main>
 
