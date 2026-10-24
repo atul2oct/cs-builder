@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BRAND } from "@/lib/constants";
 import { GOOGLE_REVIEWS } from "@/data/reviews";
 
@@ -8,8 +8,43 @@ export default function GoogleReviewsCarousel() {
   // Active card index for click/touch zoom
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
-  // Duplicate items to ensure a mathematically seamless infinite loop
-  const duplicatedReviews = [...GOOGLE_REVIEWS, ...GOOGLE_REVIEWS];
+  // Manual drag & scroll state
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftPos, setScrollLeftPos] = useState(0);
+  const [isUserHovering, setIsUserHovering] = useState(false);
+
+  // Quadruple items to allow infinite seamless manual and auto scrolling
+  const multiReviews = [
+    ...GOOGLE_REVIEWS,
+    ...GOOGLE_REVIEWS,
+    ...GOOGLE_REVIEWS,
+    ...GOOGLE_REVIEWS,
+  ];
+
+  // Auto-scroll loop using requestAnimationFrame (pauses on user interaction, hover, or drag)
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const autoScroll = () => {
+      const container = scrollContainerRef.current;
+      if (container && !isUserHovering && !isDragging && !activeCardId) {
+        // Slow gentle right-to-left continuous drift (0.8px per frame)
+        container.scrollLeft += 0.8;
+
+        // Wrap around seamlessly if reached the middle boundary
+        const halfWidth = container.scrollWidth / 2;
+        if (container.scrollLeft >= halfWidth) {
+          container.scrollLeft -= halfWidth;
+        }
+      }
+      animationFrameId = requestAnimationFrame(autoScroll);
+    };
+
+    animationFrameId = requestAnimationFrame(autoScroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isUserHovering, isDragging, activeCardId]);
 
   // Reset zoom whenever user clicks anywhere outside a review card
   useEffect(() => {
@@ -21,9 +56,41 @@ export default function GoogleReviewsCarousel() {
     return () => window.removeEventListener("click", handleGlobalClick);
   }, []);
 
+  // Manual Arrow Scroll Buttons
+  const scrollByAmount = (offset: number) => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
+  // Drag-to-scroll handlers (for mouse click & drag)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    setIsDragging(true);
+    setStartX(e.pageX - container.offsetLeft);
+    setScrollLeftPos(container.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5; // Drag speed multiplier
+    container.scrollLeft = scrollLeftPos - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   const handleCardClick = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation(); // prevent immediate global document click reset
-    setActiveCardId(id);
+    e.stopPropagation();
+    // Toggle or activate 1.3x zoom
+    setActiveCardId((prev) => (prev === id ? null : id));
   };
 
   const handleCardMouseLeave = () => {
@@ -35,10 +102,10 @@ export default function GoogleReviewsCarousel() {
     <section
       id="reviews"
       aria-label="Google Customer Reviews"
-      className="py-16 sm:py-24 bg-[#F5F8EF] relative overflow-hidden"
+      className="py-16 sm:py-20 bg-[#F5F8EF] relative overflow-hidden"
     >
       {/* ── Section Header ───────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-4 relative z-10">
         {/* Handwritten Accent Note */}
         <div
           className="hand-note text-2xl sm:text-3xl font-semibold absolute -top-8 right-12 sm:right-24 rotate-3 hidden sm:block"
@@ -61,7 +128,7 @@ export default function GoogleReviewsCarousel() {
           <span className="italic text-[#08482D]">Building With Us</span>
         </h2>
 
-        {/* Google Aggregate Rating Badge */}
+        {/* Google Aggregate Rating Badge & Manual Nav Arrows */}
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
           <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-[#DAE7C7] shadow-xs">
             <span className="text-lg font-bold text-[#101410]">{BRAND.googleRating}</span>
@@ -82,32 +149,66 @@ export default function GoogleReviewsCarousel() {
             <span>Write a Google Review</span>
             <span>↗</span>
           </a>
+
+          {/* Manual Scroll Control Buttons (Left & Right) */}
+          <div className="flex items-center gap-1.5 ml-2">
+            <button
+              onClick={() => scrollByAmount(-350)}
+              aria-label="Scroll reviews left"
+              className="w-9 h-9 rounded-full bg-white border border-[#DAE7C7] flex items-center justify-center text-[#08482D] hover:bg-[#DAE7C7] active:scale-95 transition-all shadow-xs font-bold"
+            >
+              ←
+            </button>
+            <button
+              onClick={() => scrollByAmount(350)}
+              aria-label="Scroll reviews right"
+              className="w-9 h-9 rounded-full bg-white border border-[#DAE7C7] flex items-center justify-center text-[#08482D] hover:bg-[#DAE7C7] active:scale-95 transition-all shadow-xs font-bold"
+            >
+              →
+            </button>
+          </div>
         </div>
 
         <p className="mt-3 text-xs text-[#5E5E61]">
-          Hover or click any review to pause and magnify 1.3× • Moves smoothly when unhovered
+          Auto-scrolls right-to-left • Drag or use arrows to scroll manually • Hover to magnify 1.3×
         </p>
       </div>
 
-      {/* ── Continuous Seamless Infinite Loop Carousel Container ──── */}
-      <div className="relative w-full py-12 sm:py-16 overflow-x-clip">
+      {/* ── Interactive Scroll & Auto-drift Carousel Container ──── */}
+      <div
+        className="relative w-full overflow-hidden"
+        onMouseEnter={() => setIsUserHovering(true)}
+        onMouseLeave={() => {
+          setIsUserHovering(false);
+          setIsDragging(false);
+        }}
+      >
         {/* Soft edge blur vignettes */}
         <div
-          className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 z-20 pointer-events-none bg-gradient-to-r from-[#F5F8EF] to-transparent"
+          className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 z-20 pointer-events-none bg-gradient-to-r from-[#F5F8EF] to-transparent"
           aria-hidden="true"
         />
         <div
-          className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 z-20 pointer-events-none bg-gradient-to-l from-[#F5F8EF] to-transparent"
+          className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 z-20 pointer-events-none bg-gradient-to-l from-[#F5F8EF] to-transparent"
           aria-hidden="true"
         />
 
-        {/* Right-to-Left Infinite Scrolling Track */}
+        {/* Scrollable Container with INTERNAL VERTICAL PADDING so 1.3x zoom never gets sliced! */}
         <div
-          className={`google-reviews-track flex items-center gap-6 px-4 ${
-            activeCardId ? "is-paused" : ""
+          ref={scrollContainerRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          className={`flex items-center gap-6 px-6 py-14 sm:py-16 overflow-x-auto overflow-y-hidden no-scrollbar scroll-smooth ${
+            isDragging ? "cursor-grabbing select-none" : "cursor-grab"
           }`}
+          style={{
+            willChange: "scroll-position",
+            overscrollBehaviorY: "none",
+            touchAction: "pan-x",
+          }}
         >
-          {duplicatedReviews.map((review, idx) => {
+          {multiReviews.map((review, idx) => {
             const cardUniqueKey = `${review.id}-${idx}`;
             const isCardActive = activeCardId === cardUniqueKey;
 
@@ -116,7 +217,7 @@ export default function GoogleReviewsCarousel() {
                 key={cardUniqueKey}
                 onClick={(e) => handleCardClick(e, cardUniqueKey)}
                 onMouseLeave={handleCardMouseLeave}
-                className={`google-review-card flex-shrink-0 w-[280px] sm:w-[320px] bg-white rounded-2xl p-5 border border-[#DAE7C7] cursor-pointer select-none shadow-md ${
+                className={`google-review-card flex-shrink-0 w-[280px] sm:w-[320px] bg-white rounded-2xl p-5 border border-[#DAE7C7] select-none shadow-md ${
                   isCardActive ? "is-active" : ""
                 }`}
                 tabIndex={0}
